@@ -173,7 +173,7 @@ AudioFileReader *AudioFileReader_open(const TCHAR *filename, const AudioSampleTy
     }
 
     // 为输入流创建临时 packet
-    av_init_packet(&obj->_tempPacket);
+ //   av_init_packet(&obj->_tempPacket);
     obj->_tempPacket.data = NULL;
     obj->_tempPacket.size = 0;
 
