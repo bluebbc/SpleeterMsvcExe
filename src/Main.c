@@ -35,6 +35,7 @@
 #include "Common.h"
 #include "AudioFileReader.h"
 #include "SpleeterProcessor.h"
+#include "cRpcApi.h"
 
 static void _displayHelp(int argc, TCHAR *argv[]) {
     _tprintf(_T("%s %s\n"), _T(PROGRAM_NAME), _T(PROGRAM_VERSION));
@@ -184,7 +185,7 @@ static bool _tryParseBitrate(int *parsedResultBitrate, const TCHAR *optionValue)
 
 int _tmain(int argc, TCHAR *argv[]) {
     setlocale(LC_ALL, "");
-
+	//crpc_set_model_path("D:/workroom/github/me/SpleeterMsvcExe/bin/x64/Debug/models/2stems");
     ////////////////////////////////////////////////// 获取命令行参数 //////////////////////////////////////////////////
 
 #if defined(_DEBUG) && 0
@@ -223,6 +224,7 @@ int _tmain(int argc, TCHAR *argv[]) {
         static struct option longOptions[] = {
             // name,            has_arg,    flag,           val
             {_T("model"),       ARG_REQ,    0,              _T('m')},
+			{_T("type"),       ARG_REQ,    0,              _T('t') },
             {_T("output"),      ARG_REQ,    0,              _T('o')},
             {_T("bitrate"),     ARG_REQ,    0,              _T('b')},
             {_T("overwrite"),   ARG_NONE,   &overwriteFlag, 1},
@@ -233,7 +235,7 @@ int _tmain(int argc, TCHAR *argv[]) {
         };
 
         int longOptionIndex = 0;
-        int optionChar = getopt_long(argc, argv, _T("m:o:b:hv"), longOptions, &longOptionIndex);
+        int optionChar = getopt_long(argc, argv, _T("t:m:o:b:hv"), longOptions, &longOptionIndex);
         if (optionChar == -1) {
             // 所有选项都已被解析
             break;
@@ -262,6 +264,23 @@ int _tmain(int argc, TCHAR *argv[]) {
                     modelName[FILE_PATH_MAX_SIZE - 1] = _T('\0');
                 }
                 break;
+
+			case _T('t'):
+				// -t
+				if (optarg != NULL) {
+					TCHAR typePath[1024];
+					_tcsncpy(typePath, optarg, (FILE_PATH_MAX_SIZE - 1));
+					typePath[FILE_PATH_MAX_SIZE - 1] = _T('\0');
+
+					{
+						char out[2048] = { 0 };
+						int len = WideCharToMultiByte(CP_UTF8, 0, typePath, -1, NULL, 0, NULL, NULL);
+						WideCharToMultiByte(CP_UTF8, 0, typePath, -1, out, len, NULL, NULL);
+
+						crpc_set_model_path(out);
+					}
+				}
+				break;
 
             case _T('o'):
                 // -o, --output
@@ -455,7 +474,7 @@ int _tmain(int argc, TCHAR *argv[]) {
         if (!_checkOutputFilePath(outputFilePath, overwriteFlag)) {
             return EXIT_FAILURE;
         }
-
+		_ftprintf(stderr, _T("write output file \"%s\".\n"), outputFilePath);
         if (!AudioFile_writeAll(outputFilePath, &outputAudioFileFormat, &spleeterSampleType,
                 (void *)track->audioDataSource->sampleValues, track->audioDataSource->sampleCountPerChannel)) {
             _ftprintf(stderr, _T("Error: Failed to write output file \"%s\".\n"), outputFilePath);
@@ -469,6 +488,6 @@ int _tmain(int argc, TCHAR *argv[]) {
 
     _tprintf(_T("\n"));
     _tprintf(_T("Completed.\n"));
-
+//	crpc_client_stop();
     return EXIT_SUCCESS;
 }

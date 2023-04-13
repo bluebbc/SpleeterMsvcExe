@@ -34,6 +34,7 @@
 #include "AudioFileCommon.h"
 #include "AudioFileWriter.h"
 #include "SpleeterProcessor.h"
+#include "cRpcApi.h"
 
 #include <Shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
@@ -60,6 +61,7 @@ static void _noOpDeallocator(void *data, size_t a, void *b) {
 }
 
 static const char *_getModelPath(const TCHAR *modelName) {
+	return crpc_get_model_path();
     TCHAR modelPathBuffer[FILE_PATH_MAX_SIZE] = { 0 };
 
 #if defined(_DEBUG) && 0

@@ -45,9 +45,6 @@
     <ClCompile Include="src\Common.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Main.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Memory.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>third_party\getopt</Filter>
     </ClCompile>
     <ClCompile Include="src\RpcApi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,6 +89,9 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="src\RpcApi.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cRpcApi.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

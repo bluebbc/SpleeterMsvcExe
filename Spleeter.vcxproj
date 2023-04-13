@@ -63,10 +63,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\workroom\github\me\SpleeterMsvcExe\third_party\rpclib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\workroom\github\me\SpleeterMsvcExe\third_party\rpclib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rpcd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(ProjectDir)third_party\ffmpeg-win64\dll\*.dll" "$(TargetDir)"
@@ -119,6 +122,7 @@ xcopy /y /d "$(ProjectDir)third_party\tensorflow-cpu-x64\dll\*.dll" "$(TargetDir
     <ClInclude Include="src\AudioFileReader.h" />
     <ClInclude Include="src\AudioFileWriter.h" />
     <ClInclude Include="src\Common.h" />
+    <ClInclude Include="src\cRpcApi.h" />
     <ClInclude Include="src\Memory.h" />
     <ClInclude Include="src\RpcApi.h" />
     <ClInclude Include="src\SpleeterProcessor.h" />
