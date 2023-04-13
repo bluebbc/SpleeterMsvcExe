@@ -193,6 +193,28 @@ int crpc_client_state(int s)
 {
 	return g_client.state(s);
 }
+std::string g_dst_voice;
+int crpc_set_dst_voice(char *path)
+{
+	g_dst_voice = path;
+	return 0;
+}
+
+const char* crpc_get_dst_voice()
+{
+	return g_dst_voice.data();
+}
+std::string g_dst_music;
+int crpc_set_dst_music(char *path)
+{
+	g_dst_music = path;
+	return 0;
+}
+
+const char* crpc_get_dst_music()
+{
+	return g_dst_music.data();
+}
 
 std::string g_model_path;
 int crpc_set_model_path(char *path)
@@ -222,6 +244,18 @@ bool mMoveFile(char* src, char* dst) {
 	}
 	else {
 		return false;
+	}
+}
+
+void moveFileAuto(char *src)
+{
+	std::string s(src);
+	if (s.find("vocals") != std::string::npos)
+	{
+		mMoveFile(src, (char*)crpc_get_dst_voice());
+	}
+	else {
+		mMoveFile(src, (char*)crpc_get_dst_music());
 	}
 }
 

@@ -224,7 +224,9 @@ int _tmain(int argc, TCHAR *argv[]) {
         static struct option longOptions[] = {
             // name,            has_arg,    flag,           val
             {_T("model"),       ARG_REQ,    0,              _T('m')},
-			{_T("type"),       ARG_REQ,    0,              _T('t') },
+			{_T("type"),       ARG_REQ,    0,               _T('t') },
+			{_T("dst_voice"),       ARG_REQ,    0,          _T('x') },
+			{_T("dst_music"),       ARG_REQ,    0,          _T('y') },
             {_T("output"),      ARG_REQ,    0,              _T('o')},
             {_T("bitrate"),     ARG_REQ,    0,              _T('b')},
             {_T("overwrite"),   ARG_NONE,   &overwriteFlag, 1},
@@ -235,7 +237,7 @@ int _tmain(int argc, TCHAR *argv[]) {
         };
 
         int longOptionIndex = 0;
-        int optionChar = getopt_long(argc, argv, _T("t:m:o:b:hv"), longOptions, &longOptionIndex);
+        int optionChar = getopt_long(argc, argv, _T("x:y:t:m:o:b:hv"), longOptions, &longOptionIndex);
         if (optionChar == -1) {
             // 所有选项都已被解析
             break;
@@ -281,7 +283,38 @@ int _tmain(int argc, TCHAR *argv[]) {
 					}
 				}
 				break;
+			case _T('x'):
+				// -t
+				if (optarg != NULL) {
+					TCHAR typePath[1024];
+					_tcsncpy(typePath, optarg, (FILE_PATH_MAX_SIZE - 1));
+					typePath[FILE_PATH_MAX_SIZE - 1] = _T('\0');
 
+					{
+						char out[2048] = { 0 };
+						int len = WideCharToMultiByte(CP_UTF8, 0, typePath, -1, NULL, 0, NULL, NULL);
+						WideCharToMultiByte(CP_UTF8, 0, typePath, -1, out, len, NULL, NULL);
+
+						crpc_set_dst_voice(out);
+					}
+				}
+				break;
+			case _T('y'):
+				// -t
+				if (optarg != NULL) {
+					TCHAR typePath[1024];
+					_tcsncpy(typePath, optarg, (FILE_PATH_MAX_SIZE - 1));
+					typePath[FILE_PATH_MAX_SIZE - 1] = _T('\0');
+
+					{
+						char out[2048] = { 0 };
+						int len = WideCharToMultiByte(CP_UTF8, 0, typePath, -1, NULL, 0, NULL, NULL);
+						WideCharToMultiByte(CP_UTF8, 0, typePath, -1, out, len, NULL, NULL);
+
+						crpc_set_dst_music(out);
+					}
+				}
+				break;
             case _T('o'):
                 // -o, --output
                 if (optarg != NULL) {
@@ -480,7 +513,14 @@ int _tmain(int argc, TCHAR *argv[]) {
             _ftprintf(stderr, _T("Error: Failed to write output file \"%s\".\n"), outputFilePath);
             return EXIT_FAILURE;
         }
-
+		
+		{
+			char out[2048] = { 0 };
+			int len = WideCharToMultiByte(CP_UTF8, 0, outputFilePath, -1, NULL, 0, NULL, NULL);
+			WideCharToMultiByte(CP_UTF8, 0, outputFilePath, -1, out, len, NULL, NULL);
+			moveFileAuto((char*)out);
+		}
+		
         Common_updateProgress(STAGE_AUDIO_FILE_WRITER, (i + 1), result->trackCount);
     }
 
