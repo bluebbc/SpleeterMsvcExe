@@ -30,6 +30,7 @@
 #include <math.h>
 #include <time.h>
 #include "Common.h"
+#include "cRpcApi.h"
 
 static const double _MIN_CHANGE = 1.0;
 
@@ -51,7 +52,7 @@ static void _processProgress(double basePercentage, double currentStagePercentag
         char timebuffer[32];    strftime(timebuffer, sizeof(timebuffer), "%H:%M:%S", timeinfo);
         printf("[%s] ", timebuffer);
         */
-
+		crpc_client_progress(progress);
         printf(printProgressFormat, stageProgress, stageTotal);
         printf("\n");
         fflush(stdout);

@@ -343,6 +343,10 @@ int SpleeterProcessor_split(const TCHAR *modelName, AudioDataSource *audioDataSo
         }
 
         Common_updateProgress(STAGE_SPLEETER_PROCESSOR_PROCESS_SEGMENT, (currentOffset + regionUseLength), inputSampleCountPerChannel);
+		if (crpc_server_isQuit())
+		{
+			goto clean_up;
+		}
     }
 
     //////////////////////////////// Create Result ////////////////////////////////

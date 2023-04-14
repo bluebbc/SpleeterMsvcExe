@@ -160,8 +160,8 @@ AppClient *getGlobalAppClient()
 }
 }
 
-media::AppClient g_client;
-media::AppServer g_server;
+media::AppClient g_client(8090);
+media::AppServer g_server(8091);
 
 extern "C" {
 void crpc_server_start()
