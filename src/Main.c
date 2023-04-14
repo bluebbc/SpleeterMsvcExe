@@ -490,6 +490,8 @@ int _tmain(int argc, TCHAR *argv[]) {
 
     SpleeterProcessorResult *result = NULL;
     if (SpleeterProcessor_split(modelName, audioDataSourceStereo, &result) != 0) {
+		if (crpc_server_isQuit())
+			return Cancel;
         return EXIT_FAILURE;
     }
     if (result == NULL) {
@@ -528,6 +530,5 @@ int _tmain(int argc, TCHAR *argv[]) {
 
     _tprintf(_T("\n"));
     _tprintf(_T("Completed.\n"));
-	crpc_client_state(Complete);
     return EXIT_SUCCESS;
 }
