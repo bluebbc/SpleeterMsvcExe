@@ -528,6 +528,6 @@ int _tmain(int argc, TCHAR *argv[]) {
 
     _tprintf(_T("\n"));
     _tprintf(_T("Completed.\n"));
-	crpc_client_state(88);
+	crpc_client_state(Complete);
     return EXIT_SUCCESS;
 }

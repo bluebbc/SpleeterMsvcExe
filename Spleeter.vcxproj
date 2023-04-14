@@ -109,6 +109,7 @@ xcopy /y /d "$(ProjectDir)third_party\tensorflow-cpu-x64\dll\*.dll" "$(TargetDir
     <ClCompile Include="src\AudioFileReader.c" />
     <ClCompile Include="src\AudioFileWriter.c" />
     <ClCompile Include="src\Common.c" />
+    <ClCompile Include="src\cRpcApi.cpp" />
     <ClCompile Include="src\Main.c" />
     <ClCompile Include="src\Memory.c" />
     <ClCompile Include="src\RpcApi.cpp" />

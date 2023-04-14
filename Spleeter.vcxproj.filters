@@ -60,6 +60,9 @@
     <ClCompile Include="src\Main.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\cRpcApi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AudioFile.h">

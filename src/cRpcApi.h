@@ -1,6 +1,16 @@
 #pragma once
 
 
+enum ENotifyType
+{
+	Running = 1,
+	Pause = 2,
+	Complete = 3,
+	Cancel = 4,
+	Error = 10,
+	UnknownError = 99
+};
+
 void crpc_server_start();
 void crpc_server_stop();
 bool crpc_server_isQuit();
