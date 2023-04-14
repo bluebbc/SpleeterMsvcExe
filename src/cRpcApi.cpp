@@ -79,6 +79,7 @@ bool mMoveFile(char* src, char* dst) {
 	MultiByteToWideChar(CP_UTF8, 0, sourceFilePath.c_str(), -1, &sourceFilePathW[0], sourceFilePathLength);
 	MultiByteToWideChar(CP_UTF8, 0, destinationFilePath.c_str(), -1, &destinationFilePathW[0], destinationFilePathLength);
 
+	DeleteFileW(destinationFilePathW.c_str());
 	if (MoveFileW(sourceFilePathW.c_str(), destinationFilePathW.c_str())) {
 		return true;
 	}
