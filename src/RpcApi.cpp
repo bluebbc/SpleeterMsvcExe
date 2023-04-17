@@ -4,7 +4,7 @@ namespace media {
 
 SDKServer::SDKServer(int port)
 {
-    thread_ = new std::thread([&]() {
+    thread_ = new std::thread([&,port]() {
         srv_.reset(new rpc::server(port));
         std::function<void(float)> fuc = std::bind(&SDKServer::onProgress, this, std::placeholders::_1);
         srv_->bind("progress", fuc);
@@ -72,7 +72,7 @@ void SDKClient::stop()
 bool SDKClient::is_connect()
 {
     auto state = client_->get_connection_state();
-    if (state == rpc::client::connection_state::connected)
+    if (state != rpc::client::connection_state::connected)
         client_.reset(new rpc::client("127.0.0.1", port_));
 
     state = client_->get_connection_state();
@@ -83,7 +83,7 @@ bool SDKClient::is_connect()
 
 AppServer::AppServer(int port)
 {
-    thread_ = new std::thread([&]() {
+    thread_ = new std::thread([&,port]() {
         srv_.reset(new rpc::server(port));
 
         std::function<void()> fuc2 = std::bind(&AppServer::onStop, this);
@@ -142,7 +142,7 @@ int AppClient::state(int s)
 bool AppClient::is_connect()
 {
     auto state = client_->get_connection_state();
-    if (state == rpc::client::connection_state::connected)
+    if (state != rpc::client::connection_state::connected)
         client_.reset(new rpc::client("127.0.0.1", port_));
 
     state = client_->get_connection_state();
